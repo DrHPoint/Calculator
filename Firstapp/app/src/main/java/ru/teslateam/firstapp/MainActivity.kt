@@ -155,12 +155,23 @@ class MainActivity : AppCompatActivity() {
                     textView2.text = "Вы уже нажали"
                 }
                 x2i = "n"
+                if (x1i == "y") {
+                    textView.text = "${x1.toInt()}${x}${x2.toInt()}."
+                }
+                else {
+                    textView.text = "${x1}${x}${x2.toInt()}."
+                }
             }
             else {
                 if (x1i == "n") {
                     textView2.text = "Вы уже нажали"
                 }
-                x1i = "n"
+                if (x == " ") {
+                    x1i = "n"
+                    textView.text = "${x1.toInt()}."
+                }
+                else
+                    textView2.text = "Ошибка"
             }
 
         }
