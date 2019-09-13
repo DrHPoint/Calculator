@@ -35,40 +35,35 @@ class MainActivity : AppCompatActivity() {
             z = 0.0
         }
 
-        fun xx(a:Double) {
+        fun xx(a: Double) {
             textView2.text = ""
             if (x == " ") {
                 if (x1i == "y") {
                     x1 = x1 * 10 + a
                     textView.text = "${x1.toInt()}"
-                }
-                else {
+                } else {
                     x1 += a / ((10.0).pow(x1t++))
-                    textView.text = "${x1}"
+                    textView.text = "$x1"
                 }
-            }
-            else {
+            } else {
                 xv = "y"
                 if (x1i == "y") {
                     if (x2i == "y") {
                         x2 = x2 * 10 + a
-                        textView.text = "${x1.toInt()}${x}${x2.toInt()}"
+                        textView.text = "${x1.toInt()}$x${x2.toInt()}"
+                    } else {
+                        x2 += a / ((10.0).pow(x2t++))
+                        textView.text = "${x1.toInt()}$x$x2"
                     }
-                    else {
-                        x2 += a/((10.0).pow(x2t++))
-                        textView.text = "${x1.toInt()}${x}${x2}"
-                    }
-                }
-                else {
+                } else {
                     if (x2i == "y") {
                         x2 = x2 * 10 + a
-                        textView.text = "${x1}${x}${x2.toInt()}"
+                        textView.text = "$x1$x${x2.toInt()}"
+                    } else {
+                        x2 += a / ((10.0).pow(x2t++))
+                        textView.text = "$x1$x$x2"
                     }
-                    else {
-                        x2 += a/((10.0).pow(x2t++))
-                        textView.text = "${x1}${x}${x2}"
-                    }
-                    }
+                }
             }
         }
 
@@ -115,33 +110,49 @@ class MainActivity : AppCompatActivity() {
         button11.setOnClickListener {
             x = "+"
             if (x1i == "y")
-                textView.text = "${x1.toInt()}${x}"
+                textView.text = "${x1.toInt()}$x"
             else
-                textView.text = "${x1}${x}"
+                textView.text = "$x1$x"
+            x2 = 0.0
+            x2i = "y"
+            x2t = 1
+            xv = "n"
         }
 
         button15.setOnClickListener {
             x = "-"
             if (x1i == "y")
-                textView.text = "${x1.toInt()}${x}"
+                textView.text = "${x1.toInt()}$x"
             else
-                textView.text = "${x1}${x}"
+                textView.text = "$x1$x"
+            x2 = 0.0
+            x2i = "y"
+            x2t = 1
+            xv = "n"
         }
 
         button22.setOnClickListener {
             x = "*"
             if (x1i == "y")
-                textView.text = "${x1.toInt()}${x}"
+                textView.text = "${x1.toInt()}$x"
             else
-                textView.text = "${x1}${x}"
+                textView.text = "$x1$x"
+            x2 = 0.0
+            x2i = "y"
+            x2t = 1
+            xv = "n"
         }
 
         button23.setOnClickListener {
             x = "/"
             if (x1i == "y")
-                textView.text = "${x1.toInt()}${x}"
+                textView.text = "${x1.toInt()}$x"
             else
-                textView.text = "${x1}${x}"
+                textView.text = "$x1$x"
+            x2 = 0.0
+            x2i = "y"
+            x2t = 1
+            xv = "n"
         }
 
         button24.setOnClickListener {
@@ -156,64 +167,57 @@ class MainActivity : AppCompatActivity() {
                 }
                 x2i = "n"
                 if (x1i == "y") {
-                    textView.text = "${x1.toInt()}${x}${x2.toInt()}."
+                    textView.text = "${x1.toInt()}$x${x2.toInt()}."
+                } else {
+                    textView.text = "$x1$x${x2.toInt()}."
                 }
-                else {
-                    textView.text = "${x1}${x}${x2.toInt()}."
-                }
-            }
-            else {
+            } else {
                 if (x1i == "n") {
                     textView2.text = "Вы уже нажали"
                 }
                 if (x == " ") {
                     x1i = "n"
                     textView.text = "${x1.toInt()}."
-                }
-                else
+                } else
                     textView2.text = "Ошибка"
             }
 
         }
 
         button10.setOnClickListener {
-            if ((x != " ")&&(xv == "y")) {
+            if ((x != " ") && (xv == "y")) {
                 if (x == "+") {
                     z = x1 + x2
                     if ((x1i == "y") && (x2i == "y"))
                         textView.text = "${z.toInt()}"
                     else
-                        textView.text = "${z}"
+                        textView.text = "$z"
                 }
                 if (x == "-") {
                     z = x1 - x2
                     if ((x1i == "y") && (x2i == "y"))
                         textView.text = "${z.toInt()}"
                     else
-                        textView.text = "${z}"
+                        textView.text = "$z"
                 }
                 if (x == "/")
                     if (x2 != 0.0) {
                         z = x1 / x2
-                        if (((z.toInt()).toDouble())==(z))
+                        if (((z.toInt()).toDouble()) == (z))
                             textView.text = "${z.toInt()}"
                         else
-                            textView.text = "${z}"
-                    }
-                    else
+                            textView.text = "$z"
+                    } else
                         textView2.text = "На ноль делить нельзя"
-                if (x == "*"){
+                if (x == "*") {
                     z = x1 * x2
-                    if (((z.toInt()).toDouble())==(z))
+                    if (((z.toInt()).toDouble()) == (z))
                         textView.text = "${z.toInt()}"
                     else
-                        textView.text = "${z}"
+                        textView.text = "$z"
                 }
             }
             x0()
         }
-
-
-
     }
 }
