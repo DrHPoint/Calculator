@@ -5,13 +5,17 @@ import android.os.Bundle
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlin.math.*
 
-class MainActivity : AppCompatActivity() {
+//Model
+
+class ModelCal {
 
     private var x1 = 0.0 //Первая переменная
     private var x1t = -1 //Счетчик знаков после запятой. При нуле число целое
     private var x2 = 0.0 //Вторая переменная
     private var x2t = -1 //Счетчик знаков после запятой. При минус единице число не введено, при нуле целое
     private var x = " " //Оператор
+    var text = " "
+    var text2 = " "
 
     private fun null2() {
         x1t = -1
@@ -20,13 +24,13 @@ class MainActivity : AppCompatActivity() {
         x2t = -1
     }
 
-    private fun inNull() {
+    fun inNull() {
         null2()
         x1 = 0.0
     }
 
-    private fun inputC(a: Double) {
-        textView2.text = ""
+    fun inputC(a: Double) {
+        text2 = ""
         if (x == " ") {
             if (x1t == -1) {
                 inNull()
@@ -34,10 +38,10 @@ class MainActivity : AppCompatActivity() {
             }
             if (x1t == 0) {
                 x1 = x1 * 10 + a
-                textView.text = "${x1.toInt()}"
+                text = "${x1.toInt()}"
             } else {
                 x1 += a / ((10.0).pow(x1t++))
-                textView.text = "$x1"
+                text = "$x1"
             }
         } else {
             if (x2t == -1)
@@ -45,91 +49,104 @@ class MainActivity : AppCompatActivity() {
             if (((x1.toInt()).toDouble()) == x1) {
                 if (x2t == 0) {
                     x2 = x2 * 10 + a
-                    textView.text = "${x1.toInt()}$x${x2.toInt()}"
+                    text = "${x1.toInt()}$x${x2.toInt()}"
                 } else {
                     x2 += a / ((10.0).pow(x2t++))
-                    textView.text = "${x1.toInt()}$x$x2"
+                    text = "${x1.toInt()}$x$x2"
                 }
             } else {
                 if (x2t == 0) {
                     x2 = x2 * 10 + a
-                    textView.text = "$x1$x${x2.toInt()}"
+                    text = "$x1$x${x2.toInt()}"
                 } else {
                     x2 += a / ((10.0).pow(x2t++))
-                    textView.text = "$x1$x$x2"
+                    text = "$x1$x$x2"
                 }
             }
         }
     }
 
-    private fun operation(b: String) {
+    fun operation(b: String) {
         if (!((x1t == -1) && (x1 == 0.0))) {
             x = b
             if (((x1.toInt()).toDouble()) == x1)
-                textView.text = "${x1.toInt()}$x"
+                text = "${x1.toInt()}$x"
             else
-                textView.text = "$x1$x"
+                text = "$x1$x"
             x2 = 0.0
             x2t = -1
         } else
-            textView2.text = "Не введена первая переменная"
+            text2 = "Не введена первая переменная"
     }
 
-    private fun point() {
+    fun point() {
         if (x2t > -1) {
             if (x2t > 0)
-                textView2.text = "Вы уже нажали"
+                text2 = "Вы уже нажали"
             else
                 x2t = 1
             if (x1t == 0)
-                textView.text = "${x1.toInt()}$x${x2.toInt()}."
+                text = "${x1.toInt()}$x${x2.toInt()}."
             else
-                textView.text = "$x1$x${x2.toInt()}."
+                text = "$x1$x${x2.toInt()}."
         } else {
             if (x1t != 0)
-                textView2.text = "Вы уже нажали"
+                text2 = "Вы уже нажали"
             else
                 x1t = 1
             if (x == " ")
-                textView.text = "${x1.toInt()}."
+                text = "${x1.toInt()}."
             else
-                textView2.text = "Не введена вторая переменная"
+                text2 = "Не введена вторая переменная"
         }
     }
 
-    private fun calculation() {
+    fun calculation() {
         if ((x != " ") && (x2t > -1)) {
             if (x == "+") {
                 x1 += x2
-                if (((x1.toInt()).toDouble()) == x1)
-                    textView.text = "${x1.toInt()}"
+                if (((x1.toInt()).toDouble()) == x1) text = "${x1.toInt()}"
                 else
-                    textView.text = "$x1"
+                    text = "$x1"
             }
             if (x == "-") {
                 x1 -= x2
                 if (((x1.toInt()).toDouble()) == x1)
-                    textView.text = "${x1.toInt()}"
+                    text = "${x1.toInt()}"
                 else
-                    textView.text = "$x1"
+                    text = "$x1"
             }
             if (x == "/")
                 if (x2 != 0.0) {
                     x1 /= x2
                     if (((x1.toInt()).toDouble()) == x1)
-                        textView.text = "${x1.toInt()}"
+                        text = "${x1.toInt()}"
                     else
-                        textView.text = "$x1"
+                        text = "$x1"
                 } else
-                    textView2.text = "На ноль делить нельзя"
+                    text2 = "На ноль делить нельзя"
             if (x == "*") {
                 x1 *= x2
                 if (((x1.toInt()).toDouble()) == x1)
-                    textView.text = "${x1.toInt()}"
+                    text = "${x1.toInt()}"
                 else
-                    textView.text = "$x1"
+                    text = "$x1"
             }
             null2()
+        }
+    }
+}
+
+class MainActivity : AppCompatActivity() {
+
+    private var cal = ModelCal()
+
+    //View
+
+    private fun viewC(d: Int, e: String) {
+        when (d) {
+            1 -> textView.text = "$e"
+            2 -> textView2.text = "$e"
         }
     }
 
@@ -137,73 +154,107 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        //Controller
+
         button1.setOnClickListener {
-            inputC(1.0)
+            cal.inputC(1.0)
+            viewC(1, cal.text)
+            viewC(2, cal.text2)
         }
 
         button2.setOnClickListener {
-            inputC(2.0)
+            cal.inputC(2.0)
+            viewC(1, cal.text)
+            viewC(2, cal.text2)
         }
 
         button3.setOnClickListener {
-            inputC(3.0)
+            cal.inputC(3.0)
+            viewC(1, cal.text)
+            viewC(2, cal.text2)
         }
 
         button4.setOnClickListener {
-            inputC(4.0)
+            cal.inputC(4.0)
+            viewC(1, cal.text)
+            viewC(2, cal.text2)
         }
 
         button5.setOnClickListener {
-            inputC(5.0)
+            cal.inputC(5.0)
+            viewC(1, cal.text)
+            viewC(2, cal.text2)
         }
 
         button6.setOnClickListener {
-            inputC(6.0)
+            cal.inputC(6.0)
+            viewC(1, cal.text)
+            viewC(2, cal.text2)
         }
 
         button7.setOnClickListener {
-            inputC(7.0)
+            cal.inputC(7.0)
+            viewC(1, cal.text)
+            viewC(2, cal.text2)
         }
 
         button8.setOnClickListener {
-            inputC(8.0)
+            cal.inputC(8.0)
+            viewC(1, cal.text)
+            viewC(2, cal.text2)
         }
 
         button9.setOnClickListener {
-            inputC(9.0)
+            cal.inputC(9.0)
+            viewC(1, cal.text)
+            viewC(2, cal.text2)
         }
 
         button0.setOnClickListener {
-            inputC(0.0)
+            cal.inputC(0.0)
+            viewC(1, cal.text)
+            viewC(2, cal.text2)
         }
 
         buttonPlus.setOnClickListener {
-            operation("+")
+            cal.operation("+")
+            viewC(1, cal.text)
+            viewC(2, cal.text2)
         }
 
         buttonMinus.setOnClickListener {
-            operation("-")
+            cal.operation("-")
+            viewC(1, cal.text)
+            viewC(2, cal.text2)
         }
 
         buttonMult.setOnClickListener {
-            operation("*")
+            cal.operation("*")
+            viewC(1, cal.text)
+            viewC(2, cal.text2)
         }
 
         buttonDiv.setOnClickListener {
-            operation("/")
+            cal.operation("/")
+            viewC(1, cal.text)
+            viewC(2, cal.text2)
         }
 
         buttonDel.setOnClickListener {
-            inNull()
-            textView.text = "0"
+            cal.inNull()
+            viewC(1, "0")
         }
 
         buttonPoint.setOnClickListener {
-            point()
+            cal.point()
+            viewC(1, cal.text)
+            viewC(2, cal.text2)
         }
 
         buttonEq.setOnClickListener {
-            calculation()
+            cal.calculation()
+            viewC(1, cal.text)
+            viewC(2, cal.text2)
         }
     }
 }
