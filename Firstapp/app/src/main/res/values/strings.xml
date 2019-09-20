@@ -1,4 +1,28 @@
 <resources>
     <string name="app_name">Calculator</string>
     <string name="hello_work">0</string>
+    <string name="error_1">Не введена первая переменная</string>
+    <string-array name="error_array">
+        <item>На ноль делить нельзя</item>
+        <item>Не введена первая переменная</item>
+        <item>Не введена вторая переменная</item>
+        <item>Вы уже нажали</item>
+    </string-array>
+    <string name="button_0">0</string>
+    <string name="button_1">1</string>
+    <string name="button_2">2</string>
+    <string name="button_3">3</string>
+    <string name="button_4">4</string>
+    <string name="button_5">5</string>
+    <string name="button_6">6</string>
+    <string name="button_7">7</string>
+    <string name="button_8">8</string>
+    <string name="button_9">9</string>
+    <string name="button_Delete">Del</string>
+    <string name="button_Point">.</string>
+    <string name="button_Multiply">*</string>
+    <string name="button_Divide">/</string>
+    <string name="button_Minus">-</string>
+    <string name="button_Plus">+</string>
+    <string name="button_Equally">=</string>
 </resources>

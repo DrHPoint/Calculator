@@ -2,151 +2,29 @@ package ru.teslateam.firstapp
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import android.widget.Button
+import androidx.constraintlayout.widget.Group
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlin.math.*
 
-//Model
 
-class ModelCal {
-
-    private var x1 = 0.0 //Первая переменная
-    private var x1t = -1 //Счетчик знаков после запятой. При нуле число целое
-    private var x2 = 0.0 //Вторая переменная
-    private var x2t = -1 //Счетчик знаков после запятой. При минус единице число не введено, при нуле целое
-    private var x = " " //Оператор
-    var text = " "
-    var text2 = " "
-
-    private fun null2() {
-        x1t = -1
-        x = " "
-        x2 = 0.0
-        x2t = -1
-    }
-
-    fun inNull() {
-        null2()
-        x1 = 0.0
-    }
-
-    fun inputC(a: Double) {
-        text2 = ""
-        if (x == " ") {
-            if (x1t == -1) {
-                inNull()
-                x1t = 0
-            }
-            if (x1t == 0) {
-                x1 = x1 * 10 + a
-                text = "${x1.toInt()}"
-            } else {
-                x1 += a / ((10.0).pow(x1t++))
-                text = "$x1"
-            }
-        } else {
-            if (x2t == -1)
-                x2t++
-            if (((x1.toInt()).toDouble()) == x1) {
-                if (x2t == 0) {
-                    x2 = x2 * 10 + a
-                    text = "${x1.toInt()}$x${x2.toInt()}"
-                } else {
-                    x2 += a / ((10.0).pow(x2t++))
-                    text = "${x1.toInt()}$x$x2"
-                }
-            } else {
-                if (x2t == 0) {
-                    x2 = x2 * 10 + a
-                    text = "$x1$x${x2.toInt()}"
-                } else {
-                    x2 += a / ((10.0).pow(x2t++))
-                    text = "$x1$x$x2"
-                }
-            }
-        }
-    }
-
-    fun operation(b: String) {
-        if (!((x1t == -1) && (x1 == 0.0))) {
-            x = b
-            if (((x1.toInt()).toDouble()) == x1)
-                text = "${x1.toInt()}$x"
-            else
-                text = "$x1$x"
-            x2 = 0.0
-            x2t = -1
-        } else
-            text2 = "Не введена первая переменная"
-    }
-
-    fun point() {
-        if (x2t > -1) {
-            if (x2t > 0)
-                text2 = "Вы уже нажали"
-            else
-                x2t = 1
-            if (x1t == 0)
-                text = "${x1.toInt()}$x${x2.toInt()}."
-            else
-                text = "$x1$x${x2.toInt()}."
-        } else {
-            if (x1t != 0)
-                text2 = "Вы уже нажали"
-            else
-                x1t = 1
-            if (x == " ")
-                text = "${x1.toInt()}."
-            else
-                text2 = "Не введена вторая переменная"
-        }
-    }
-
-    fun calculation() {
-        if ((x != " ") && (x2t > -1)) {
-            if (x == "+") {
-                x1 += x2
-                if (((x1.toInt()).toDouble()) == x1) text = "${x1.toInt()}"
-                else
-                    text = "$x1"
-            }
-            if (x == "-") {
-                x1 -= x2
-                if (((x1.toInt()).toDouble()) == x1)
-                    text = "${x1.toInt()}"
-                else
-                    text = "$x1"
-            }
-            if (x == "/")
-                if (x2 != 0.0) {
-                    x1 /= x2
-                    if (((x1.toInt()).toDouble()) == x1)
-                        text = "${x1.toInt()}"
-                    else
-                        text = "$x1"
-                } else
-                    text2 = "На ноль делить нельзя"
-            if (x == "*") {
-                x1 *= x2
-                if (((x1.toInt()).toDouble()) == x1)
-                    text = "${x1.toInt()}"
-                else
-                    text = "$x1"
-            }
-            null2()
-        }
-    }
-}
 
 class MainActivity : AppCompatActivity() {
 
-    private var cal = ModelCal()
+    private var cal = ModelCalculator()
 
     //View
 
     private fun viewC(d: Int, e: String) {
         when (d) {
-            1 -> textView.text = "$e"
-            2 -> textView2.text = "$e"
+            1 -> status.text = "$e"
+            2 -> error_status.text = "$e"
+        }
+    }
+
+    fun Group.setAllOnClickListener(listener: View.OnClickListener?) {
+        referencedIds.forEach { id ->
+            rootView.findViewById<View>(id).setOnClickListener(listener)
         }
     }
 
@@ -155,106 +33,92 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         //Controller
+        var groupNumber: Group = findViewById(R.id.group1)
+
+        groupNumber.setAllOnClickListener(View.OnClickListener {
+            viewC(1, cal.status)
+            viewC(2, cal.error)
+        })
 
         button1.setOnClickListener {
-            cal.inputC(1.0)
-            viewC(1, cal.text)
-            viewC(2, cal.text2)
+            cal.inputNumber(1)
         }
 
         button2.setOnClickListener {
-            cal.inputC(2.0)
-            viewC(1, cal.text)
-            viewC(2, cal.text2)
+            cal.inputNumber(2)
         }
 
         button3.setOnClickListener {
-            cal.inputC(3.0)
-            viewC(1, cal.text)
-            viewC(2, cal.text2)
+            cal.inputNumber(3)
         }
 
         button4.setOnClickListener {
-            cal.inputC(4.0)
-            viewC(1, cal.text)
-            viewC(2, cal.text2)
+            cal.inputNumber(4)
         }
 
         button5.setOnClickListener {
-            cal.inputC(5.0)
-            viewC(1, cal.text)
-            viewC(2, cal.text2)
+            cal.inputNumber(5)
         }
 
         button6.setOnClickListener {
-            cal.inputC(6.0)
-            viewC(1, cal.text)
-            viewC(2, cal.text2)
+            cal.inputNumber(6)
         }
 
         button7.setOnClickListener {
-            cal.inputC(7.0)
-            viewC(1, cal.text)
-            viewC(2, cal.text2)
+            cal.inputNumber(7)
         }
 
         button8.setOnClickListener {
-            cal.inputC(8.0)
-            viewC(1, cal.text)
-            viewC(2, cal.text2)
+            cal.inputNumber(8)
         }
 
         button9.setOnClickListener {
-            cal.inputC(9.0)
-            viewC(1, cal.text)
-            viewC(2, cal.text2)
+            cal.inputNumber(9)
         }
 
         button0.setOnClickListener {
-            cal.inputC(0.0)
-            viewC(1, cal.text)
-            viewC(2, cal.text2)
+            cal.inputNumber(0)
         }
 
         buttonPlus.setOnClickListener {
             cal.operation("+")
-            viewC(1, cal.text)
-            viewC(2, cal.text2)
+            viewC(1, cal.status)
+            viewC(2, cal.error)
         }
 
         buttonMinus.setOnClickListener {
             cal.operation("-")
-            viewC(1, cal.text)
-            viewC(2, cal.text2)
+            viewC(1, cal.status)
+            viewC(2, cal.error)
         }
 
-        buttonMult.setOnClickListener {
+        buttonMultiply.setOnClickListener {
             cal.operation("*")
-            viewC(1, cal.text)
-            viewC(2, cal.text2)
+            viewC(1, cal.status)
+            viewC(2, cal.error)
         }
 
-        buttonDiv.setOnClickListener {
+        buttonDivide.setOnClickListener {
             cal.operation("/")
-            viewC(1, cal.text)
-            viewC(2, cal.text2)
+            viewC(1, cal.status)
+            viewC(2, cal.error)
         }
 
-        buttonDel.setOnClickListener {
-            cal.inNull()
+        buttonDelete.setOnClickListener {
+            cal.nullElements(0.0)
             viewC(1, "0")
         }
 
         buttonPoint.setOnClickListener {
             cal.point()
-            viewC(1, cal.text)
-            viewC(2, cal.text2)
+            viewC(1, cal.status)
+            viewC(2, cal.error)
         }
 
-        buttonEq.setOnClickListener {
+        buttonEqually.setOnClickListener {
             cal.calculation()
-            viewC(1, cal.text)
-            viewC(2, cal.text2)
+            viewC(1, cal.status)
+            viewC(2, cal.error)
         }
     }
 }
