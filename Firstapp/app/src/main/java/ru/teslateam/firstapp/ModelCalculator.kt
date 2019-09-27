@@ -14,12 +14,16 @@ class ModelCalculator {
     var error = " "
     //private val errors = Resources.getSystem().getStringArray(R.array.error_array)
 
+    //private fun doubleFormat(a: Double, b: Int): Double = java.lang.String.format("%.{$b}g%n", a).toDouble()
+
     fun nullElements(a: Double) {
         x1 *= a
         x1t = -1
         operator = " "
         x2 = 0.0
         x2t = -1
+        if (a == 0.0)
+            status = "0"
     }
 
     fun inputNumber(a: Int) {
@@ -34,6 +38,7 @@ class ModelCalculator {
                 status = "${x1.toInt()}"
             } else {
                 x1 += a / ((10.0).pow(x1t++))
+                //x1 = doubleFormat(x1, x1t)
                 status = "$x1"
             }
         } else {
@@ -45,6 +50,7 @@ class ModelCalculator {
                     status = "${x1.toInt()}$operator${x2.toInt()}"
                 } else {
                     x2 += a / ((10.0).pow(x2t++))
+                    //x2 = doubleFormat(x2, x2t)
                     status = "${x1.toInt()}$operator$x2"
                 }
             } else {
@@ -53,6 +59,7 @@ class ModelCalculator {
                     status = "$x1$operator${x2.toInt()}"
                 } else {
                     x2 += a / ((10.0).pow(x2t++))
+                    //x2 = doubleFormat(x2, x2t)
                     status = "$x1$operator$x2"
                 }
             }
@@ -62,9 +69,8 @@ class ModelCalculator {
     fun operation(b: String) {
         if (!((x1t == -1) && (x1 == 0.0))) {
             operator = b
-            if (((x1.toInt()).toDouble()) == x1)
-                status = "${x1.toInt()}$operator"
-            else
+            status = "${x1.toInt()}$operator"
+            if (((x1.toInt()).toDouble()) != x1)
                 status = "$x1$operator"
             x2 = 0.0
             x2t = -1
@@ -78,9 +84,8 @@ class ModelCalculator {
                 error = "3"
             else
                 x2t = 1
-            if (x1t == 0)
-                status = "${x1.toInt()}$operator${x2.toInt()}."
-            else
+            status = "${x1.toInt()}$operator${x2.toInt()}."
+            if (x1t != 0)
                 status = "$x1$operator${x2.toInt()}."
         } else {
             if (x1t != 0)
