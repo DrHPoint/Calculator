@@ -12,7 +12,7 @@ class ModelCalculator {
     private var operator = " "
     var status = " "
     var error = " "
-    //private val errors = Resources.getSystem().getStringArray(R.array.error_array)
+    var errors = arrayOf<String>("0")
 
     //private fun doubleFormat(a: Double, b: Int): Double = java.lang.String.format("%.{$b}g%n", a).toDouble()
 
@@ -24,6 +24,10 @@ class ModelCalculator {
         x2t = -1
         if (a == 0.0)
             status = "0"
+    }
+
+    fun inputArray(a: Array<String>) {
+        errors = a
     }
 
     fun inputNumber(a: Int) {
@@ -75,13 +79,13 @@ class ModelCalculator {
             x2 = 0.0
             x2t = -1
         } else
-            error = "1"
+            error = errors[1]
     }
 
     fun point() {
         if (x2t > -1) {
             if (x2t > 0)
-                error = "3"
+                error = errors[3]
             else
                 x2t = 1
             status = "${x1.toInt()}$operator${x2.toInt()}."
@@ -89,13 +93,13 @@ class ModelCalculator {
                 status = "$x1$operator${x2.toInt()}."
         } else {
             if (x1t != 0)
-                error = "3"
+                error = errors[3]
             else
                 x1t = 1
             if (operator == " ")
                 status = "${x1.toInt()}."
             else
-                error = "2"
+                error = errors[2]
         }
     }
 
@@ -120,7 +124,7 @@ class ModelCalculator {
                     if ((x1 - x1.toInt()) != 0.0)
                         status = "$x1"
                 } else
-                    error = "0"
+                    error = errors[0]
             if (operator == "*") {
                 x1 *= x2
                 status = "${x1.toInt()}"

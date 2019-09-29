@@ -36,6 +36,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        val errorArray: Array<String> = resources.getStringArray(R.array.error_array)
+        cal.inputArray(errorArray)
+
         buttonDelete.setOnClickListener {
             cal.nullElements(0.0)
             viewIntermediateResults()
