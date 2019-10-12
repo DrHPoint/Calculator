@@ -7,6 +7,7 @@
         <item>Не введена первая переменная</item>
         <item>Не введена вторая переменная</item>
         <item>Вы уже нажали</item>
+        <item>Достигнут предел</item>
     </string-array>
     <string name="button_0">0</string>
     <string name="button_1">1</string>

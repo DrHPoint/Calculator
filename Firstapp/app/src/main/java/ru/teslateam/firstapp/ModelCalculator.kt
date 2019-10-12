@@ -1,7 +1,10 @@
 package ru.teslateam.firstapp
 
 //import android.content.res.Resources
+import kotlin.Int.Companion.MAX_VALUE
 import kotlin.math.pow
+import kotlin.math.round
+
 
 
 class ModelCalculator {
@@ -15,6 +18,12 @@ class ModelCalculator {
     var errors = arrayOf<String>("0")
 
     //private fun doubleFormat(a: Double, b: Int): Double = java.lang.String.format("%.{$b}g%n", a).toDouble()
+
+    fun checkProblem(Dou: Double, In: Int): Double {
+        var e: Double = (round((Dou % 1) * ((10.0).pow(In)))) % 1
+        e = (Dou - Dou.toInt()) + e / ((10.0).pow(In))
+        return e
+    }
 
     fun nullElements(a: Double) {
         x1 *= a
@@ -38,10 +47,16 @@ class ModelCalculator {
                 x1t = 0
             }
             if (x1t == 0) {
-                x1 = x1 * 10 + a
+                if ((MAX_VALUE / 10) > (x1 * 10 + a))
+                    x1 = x1 * 10 + a
+                else
+                    error = errors[4]
                 status = "${x1.toInt()}"
             } else {
-                x1 += a / ((10.0).pow(x1t++))
+                if (x1t <= 7)
+                    x1 += a / ((10.0).pow(x1t++))
+                else
+                    error = errors[4]
                 //x1 = doubleFormat(x1, x1t)
                 status = "$x1"
             }
@@ -50,19 +65,31 @@ class ModelCalculator {
                 x2t++
             if (((x1.toInt()).toDouble()) == x1) {
                 if (x2t == 0) {
-                    x2 = x2 * 10 + a
+                    if ((MAX_VALUE / 10) > (x2 * 10 + a))
+                        x2 = x2 * 10 + a
+                    else
+                        error = errors[4]
                     status = "${x1.toInt()}$operator${x2.toInt()}"
                 } else {
-                    x2 += a / ((10.0).pow(x2t++))
+                    if (x2t <= 7)
+                        x2 += a / ((10.0).pow(x2t++))
+                    else
+                        error = errors[4]
                     //x2 = doubleFormat(x2, x2t)
                     status = "${x1.toInt()}$operator$x2"
                 }
             } else {
                 if (x2t == 0) {
-                    x2 = x2 * 10 + a
+                    if ((MAX_VALUE / 10) > (x2 * 10 + a))
+                        x2 = x2 * 10 + a
+                    else
+                        error = errors[4]
                     status = "$x1$operator${x2.toInt()}"
                 } else {
-                    x2 += a / ((10.0).pow(x2t++))
+                    if (x2t <= 15)
+                        x2 += a / ((10.0).pow(x2t++))
+                    else
+                        error = errors[4]
                     //x2 = doubleFormat(x2, x2t)
                     status = "$x1$operator$x2"
                 }
